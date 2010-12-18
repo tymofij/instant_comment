@@ -1,0 +1,75 @@
+Changelog
+---------
+
+2010-12-18: **0.13**
+
+* Added icon
+
+2007-11-13: **0.12**
+
+* Fixed bug with posting multiline entries appearing not sent
+
+2007-11-11: **0.11**
+
+* Fixed bug with posting to journals with dash in the name
+
+
+2006-03-27: **0.10**
+
+* Plays better with _Ctrl+Enter_ (update the latter too if you were using it)
+* Does not ask for username
+* Shows red border and alert message when posting fails
+
+
+2006-03-11: **0.9**
+
+* LJ devs added auth-challenge to comment posting form.
+Therefore script now sends two requests - one to get challenge
+and one to actually post message.
+
+
+2006-01-24: **0.8**
+
+* Cannot read username from cookie now.  
+Therefore, you will be prompted for it first time you run script.  
+Later you can change it in _about:config_, key   
+_greasemonkey.scriptvals.clear.com.ua/LJ Instant Comment .username_
+
+2006-01-19: **0.7**
+
+* Works with new LiveJournal urls, simplified customizations.  
+Just hit Edit and change constants at the top of the script.
+
+
+2005-08-23: **0.6**
+
+* Firefox 1.5 aka DeerPark compatibility
+
+2005-07-08: **0.5**
+
+* added alt+enter for Mac users
+* proper string encoding - thanks LJ_atrustheotaku
+
+2005-07-07: **0.4**
+
+* fixed issue with & - thanks LJ_drdaeman
+* fixed issue with &nc=
+* fixed issue with lost keyboard focus
+* added ability to close box with Esc key. 	
+quirk - adds caret in Firefox 1.0, everything is fine in Trunk.
+* added login reminder
+
+2005-07-04: **0.3**
+
+* fixed issue with jumping page in Firefox 1.0
+* fixed some layout bugs
+
+2005-07-02: **0.2**
+
+* fancy progres notifier
+* dynamic inputbox
+* ctrl+enter
+
+2005-06-30: **0.1**
+	
+* just works, uses prompt to get user input
