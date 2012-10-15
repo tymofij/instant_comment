@@ -3,10 +3,12 @@
 // @description	  Adds "Instant Comment" link besides "Comment on this"
 // @author        Tim Babych
 // @homepage      http://clear.com.ua/projects/firefox/instant_comment
-// @version       0.13
+// @version       0.14
 // @include       http://*.livejournal.com/*
 // @icon          http://clear.com.ua/projects/instant_comment/paperplane.png
 // @namespace     tymofiy_lj_instant_comment
+// @grant 	      GM_addStyle
+// @grant   	  GM_xmlhttpRequest
 // ==/UserScript==
 
 // change those to customize your input box
@@ -171,8 +173,7 @@ community.livejournal.com/NAME/123456.html
 users.livejournal.com/NAME/123456.html
 */
 get_itemid_regexp = /([\w\d-]+)\.livejournal\.com\/([\w\d]*\/)?(\d+)\.html/ 
-var allReplies
-allReplies = document.evaluate(
+var allReplies = document.evaluate(
     "//a[contains(@href, '?mode=reply')]",
     document,
     null,
@@ -208,6 +209,7 @@ for (var i = 0; i < allReplies.snapshotLength; i++) {
 	a.appendChild(linktxt)
 	t.parentNode.insertBefore(a, t.nextSibling);
 }
+
 //-----------------------------------------------------------------------
 GM_addStyle(
 " #instant_comment { position: absolute; display: none;	border: 1px solid #999;"+
@@ -248,9 +250,9 @@ function findPosY(obj) {
 function zakavych(text) {
 	
     replacements = [
-    
+
     // latin text in english quotes
-    [/(\s+|^)"([^\"а-ягўєїА-ЯҐЎЄЇ]+?)"(\s+|$|\.|\,|\!|\?)/g, '$1“$2”$3'],
+   [/(\s+|^)"([^\"а-ягўєїА-ЯҐЎЄЇ]+?)"(\s+|$|\.|\,|\!|\?)/g, '$1“$2”$3'],
     
     // other text in lapky
     [/(\s+|^)"([^\"]+?)"(\s+|$|\.|\,|\!|\?)/g, '$1«$2»$3'],
@@ -269,8 +271,8 @@ function zakavych(text) {
     [/\([rRрР]\)/g, '\®'],
     
     // mdash -- one or two minuses surrounded by spaces
-    [/(\s+|^)--?(\s+)/g, '$1\u—$2'],
-    
+// WTF, why does it fail?    [/(\s+|^)--?(\s+)/g, '$1\u—$2'],
+
     // **bold**	
     [/\*{2}([^\*]+?)\*{2}/g, '<b>$1</b>'],
     
@@ -288,7 +290,7 @@ function zakavych(text) {
     
     // ellipsis	
     [/\.\.\./g, '…'],
-    
+   
     // strip extra LFs at the end
     [/\n*$/, '']
     ];
