@@ -2,12 +2,12 @@
 // @name          LJ Instant Comment
 // @description	  Adds "Instant Comment" link besides "Comment on this"
 // @author        Tim Babych
-// @homepage      http://clear.com.ua/projects/firefox/instant_comment
-// @version       0.14
+// @homepage      https://github.com/tymofij/instant_comment
+// @version       0.15
 // @include       http://*.livejournal.com/*
-// @icon          http://clear.com.ua/projects/instant_comment/paperplane.png
+// @icon          https://raw.githubusercontent.com/tymofij/instant_comment/master/paperplane.png
 // @namespace     tymofiy_lj_instant_comment
-// @grant 	      GM_addStyle
+// @grant         GM_addStyle
 // @grant   	  GM_xmlhttpRequest
 // ==/UserScript==
 
@@ -25,9 +25,9 @@ _link_title = "Instant Comment"
 
 // triggerd by clicking Instant Comment link
 function post_comment(){
-	
+
 	dd = document.getElementById('instant_comment')
-	
+
 	if (dd.getAttribute('caller_entry_id') == this.id) // hide-unhide
 		if (dd.style.display == 'block' ) {
 			hide_div(dd)
@@ -41,8 +41,8 @@ function post_comment(){
 		dd.setAttribute('caller_entry_id', this.id)
 		dd.firstChild.value = ''
 		dd.style.display = 'block'
-	} 
-	
+	}
+
 	// workaround near firefox 1.0 bug with focus()
 	hScroll = window.pageXOffset; vScroll = window.pageYOffset
 	dd.firstChild.focus()
@@ -57,9 +57,9 @@ function trigger_submit_on_ctrl_enter(e) {
 	}
 
 	// not enter and (ctrl or alt)
-	if (! (e.keyCode==13 && (e.ctrlKey || e.altKey))) 
+	if (! (e.keyCode==13 && (e.ctrlKey || e.altKey)))
 		return
-	
+
 	msgText = zakavych(this.value)
 	msgEncoded = encodeURIComponent(msgText)
 
@@ -85,7 +85,7 @@ function trigger_submit_on_ctrl_enter(e) {
 
 	anim = window.setInterval(fading, 15)
 	hide_div(this.parentNode)
-	
+
 	GM_xmlhttpRequest({
 	    method: 'GET',
 	    url: reply.getAttribute('orig_href'),
@@ -100,8 +100,8 @@ function trigger_submit_on_ctrl_enter(e) {
 		        token_str += '&'+token+'='+r.exec(s)[1]
 		    }
 		} catch(err) {
-			window.clearInterval(anim); 
-			reply.style.borderColor="red"			
+			window.clearInterval(anim);
+			reply.style.borderColor="red"
 			window.alert('Error getting LJ auth token. \nMake sure you are logged in and not banned.')
 			return
 		}
@@ -114,13 +114,13 @@ function trigger_submit_on_ctrl_enter(e) {
 			},
     		data: 'itemid='+reply.getAttribute('itemid')+'&body='+msgEncoded+token_str,
 			onload: function(responseDetails) {
-				window.clearInterval(anim); 
-				// we check for the first line of the comment				
+				window.clearInterval(anim);
+				// we check for the first line of the comment
 				needle = msgText.split("\n")[0]
 				// or just for URL in that line
 				if (urls_in_post = needle.match('https?://\\S+'))
 				    needle = urls_in_post[0]
-				    
+
 				if (responseDetails.responseText.indexOf(needle) == -1) {
 				    // Text was not found in responce
 					reply.style.borderColor="red"
@@ -129,17 +129,17 @@ function trigger_submit_on_ctrl_enter(e) {
 					    window.alert("Your comment was not posted. \nFrank's nibbling on the wires."+homepage)
 					} else {
             			window.alert('Your comment was not posted.\nPosted msg was "'+msgText+'"'+homepage)
-            		
-            		// UNCOMMENT This to see actual error page given by LJ	
+
+            		// UNCOMMENT This to see actual error page given by LJ
                     // window.document.body.innerHTML = responseDetails.responseText
             		}
 				} else {
-					reply.style.borderColor="green"				
+					reply.style.borderColor="green"
 				}
 			}
 		});
 
-		
+
 	    }
 	})
 }
@@ -167,12 +167,12 @@ d.firstChild.addEventListener("keydown", trigger_submit_on_ctrl_enter, false);
 document.body.appendChild(d)
 //--------------------------------------------------------
 
-/* 
+/*
 NAME.livejournal.com/123456.html
 community.livejournal.com/NAME/123456.html
 users.livejournal.com/NAME/123456.html
 */
-get_itemid_regexp = /([\w\d-]+)\.livejournal\.com\/([\w\d]*\/)?(\d+)\.html/ 
+get_itemid_regexp = /([\w\d-]+)\.livejournal\.com\/([\w\d]*\/)?(\d+)\.html/
 var allReplies = document.evaluate(
     "//a[contains(@href, '?mode=reply')]",
     document,
@@ -184,7 +184,7 @@ for (var i = 0; i < allReplies.snapshotLength; i++) {
 
 	t = document.createTextNode(' - ')
 	thisOne.parentNode.insertBefore(t, thisOne.nextSibling);
-	
+
 	params =  get_itemid_regexp.exec(thisOne.href)
 
 	if (!params)
@@ -194,18 +194,18 @@ for (var i = 0; i < allReplies.snapshotLength; i++) {
 	a = document.createElement('a')
 	linktxt = document.createTextNode(_link_title)
 	a.href = 'javascript:void(0)'
-	
+
 	if (params[1] == 'community' || params[1] == 'users')
 		journal =  params[2].substr(0, params[2].length -1)
-	else 
+	else
 		journal = params[1]
-		
+
 	itemid = params[3]
 
 	a.setAttribute('itemid', itemid)
 	a.setAttribute('orig_href', thisOne.href)
 	a.id = 'insta_'+journal + itemid
-	a.addEventListener("click", post_comment, false);	
+	a.addEventListener("click", post_comment, false);
 	a.appendChild(linktxt)
 	t.parentNode.insertBefore(a, t.nextSibling);
 }
@@ -232,7 +232,7 @@ function findPosX(obj) {
 			curleft += obj.offsetLeft
 			obj = obj.offsetParent;
 		}
-	} 
+	}
 	return curleft;
 }
 
@@ -243,54 +243,54 @@ function findPosY(obj) {
 			curtop += obj.offsetTop
 			obj = obj.offsetParent;
 		}
-	} 
+	}
 	return curtop;
 }
 
 function zakavych(text) {
-	
+
     replacements = [
 
     // latin text in english quotes
    [/(\s+|^)"([^\"а-ягўєїА-ЯҐЎЄЇ]+?)"(\s+|$|\.|\,|\!|\?)/g, '$1“$2”$3'],
-    
+
     // other text in lapky
     [/(\s+|^)"([^\"]+?)"(\s+|$|\.|\,|\!|\?)/g, '$1«$2»$3'],
 
-   
+
     // ukrainian apostrophe
     [/([б-щБ-ЩҐ])[\*'`]([а-яєїА-ЯЄЇ])/g, '$1’$2'],
-    
+
     // trademark (TM) and such
     [/\((tm|TM|тм|ТМ)\)/g, '™'],
-    
+
     // copyright (C) and such
-    [/\([cCсС]\)/g, '©'],    
-    
+    [/\([cCсС]\)/g, '©'],
+
     // registered (R) and such
     [/\([rRрР]\)/g, '\®'],
-    
+
     // mdash -- one or two minuses surrounded by spaces
 // WTF, why does it fail?    [/(\s+|^)--?(\s+)/g, '$1\u—$2'],
 
-    // **bold**	
+    // **bold**
     [/\*{2}([^\*]+?)\*{2}/g, '<b>$1</b>'],
-    
+
     // //italic//
     [/([^\:]|^)\/{2}(.+?[^:])\/{2}/g, '$1<i>$2</i>'],
-    
+
     // --strikeout--
     [/([^\!]|^)-{2}([^-]+?)-{2}/g, '$1<s>$2</s>'],
 
     // __underlined__
     [/_{2}([^_]+?)_{2}/g, '<u>$1</u>'],
-    
+
     // ndash for number ranges: 1995-2005
     [/(\s)(\d+)-(\d+)(\s)/g, '$1$2–$3$4'],
-    
-    // ellipsis	
+
+    // ellipsis
     [/\.\.\./g, '…'],
-   
+
     // strip extra LFs at the end
     [/\n*$/, '']
     ];
@@ -299,6 +299,6 @@ function zakavych(text) {
 	for( i=0; i < replacements.length; i++) {
 		s = s.replace(replacements[i][0], replacements[i][1])
 	}
-	
+
 	return s
 }

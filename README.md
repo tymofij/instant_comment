@@ -14,8 +14,6 @@ Understands a bit of WackoWiki markup:
 * --word-- ⇒ ~~word~~
 * \_\_word\_\_ ⇒ underlined word
 
-Creates Github-style citations from ((text))
-
 Adds some Unicode prettifications:
 
 * proper “quotes”. «quotes» for cyrillic texts.
